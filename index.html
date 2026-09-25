@@ -172,6 +172,38 @@ textarea{min-height:120px;resize:vertical}
 
 footer{border-top:1px solid var(--line);padding-block:28px 40px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:.85rem}
 footer .mono{font-family:var(--mono);font-size:.78rem}
+
+/* ---- responsive refinements ---- */
+.menu-btn{display:none;background:none;border:1px solid var(--line);border-radius:10px;width:42px;height:42px;align-items:center;justify-content:center;color:var(--ink);cursor:pointer}
+.menu-btn svg{display:block}
+.mnav{display:none}
+.log .row,.log .err{width:max-content;min-width:100%}
+.callbar{display:none}
+@media (max-width:720px){
+  .menu-btn{display:inline-flex}
+  .lang button{padding:9px 13px}
+  .mnav{display:grid;gap:4px;padding-block:8px 14px;width:100%}
+  .mnav[hidden]{display:none!important}
+  .mnav a{color:var(--ink);text-decoration:none;font-weight:600;font-size:1.05rem;padding:12px 4px;border-bottom:1px solid var(--line)}
+  .mnav a.btn{border-bottom:1.5px solid var(--accent);justify-content:center;margin-top:10px;color:var(--accent-ink)}
+  .hero .ctas .btn{flex:1 1 100%;justify-content:center}
+  .scope{padding:14px 12px 12px}
+  #cp .t-sm{display:none}
+  #cp text{font-size:17px}
+  .log{font-size:.74rem;padding:14px}
+  .log .err{margin-left:-14px;padding-left:11px}
+  .protos{grid-template-columns:1fr 1fr}
+  .protos div{padding:14px}
+  .amount{font-size:1.9rem}
+  section{padding-block:52px}
+  .sec-head{margin-bottom:26px}
+  footer{flex-direction:column;gap:6px;padding-bottom:96px}
+  .callbar{display:grid;grid-template-columns:1fr 1fr;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));background:color-mix(in srgb,var(--ground) 92%,transparent);backdrop-filter:blur(8px);border-top:1px solid var(--line)}
+  .callbar a{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border-radius:999px;font-weight:600;text-decoration:none;border:1.5px solid var(--accent)}
+  .callbar .call{background:var(--accent);color:var(--accent-ink)}
+  .callbar .wa{color:var(--ink);background:var(--raise)}
+}
+@media (max-width:380px){.protos{grid-template-columns:1fr}}
 </style>
 <style>body{margin:0;-webkit-font-smoothing:antialiased}img{max-width:100%}</style>
 </head>
@@ -192,6 +224,16 @@ footer .mono{font-family:var(--mono);font-size:.78rem}
       <button id="lang-nl" type="button" aria-pressed="true">NL</button>
       <button id="lang-en" type="button" aria-pressed="false">EN</button>
     </div>
+    <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="mnav" aria-label="Menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 5h14M3 10h14M3 15h14"/></svg>
+    </button>
+    <nav class="mnav" id="mnav" hidden aria-label="Menu">
+      <a href="#diensten" data-i18n="nav1">Diensten</a>
+      <a href="#werkwijze" data-i18n="nav2">Werkwijze</a>
+      <a href="#tarieven" data-i18n="nav3">Tarieven</a>
+      <a href="#contact" data-i18n="nav4">Contact</a>
+      <a class="btn primary" href="#contact" data-i18n="h_cta1">Storing melden</a>
+    </nav>
   </div>
 </header>
 
@@ -420,6 +462,11 @@ footer .mono{font-family:var(--mono);font-size:.78rem}
   </footer>
 </main>
 
+<div class="callbar" aria-label="Snel contact">
+  <a class="call" href="tel:+31684453686"><svg width="16" height="16" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 2.5h3.2l1.6 4-2 1.3a10 10 0 0 0 5.4 5.4l1.3-2 4 1.6v3.2A1.5 1.5 0 0 1 16 17.5 13.5 13.5 0 0 1 2.5 4 1.5 1.5 0 0 1 4 2.5Z"/></svg><span data-i18n="cb_call">Bellen</span></a>
+  <a class="wa" href="https://wa.me/31684453686" target="_blank" rel="noopener">WhatsApp</a>
+</div>
+
 <script>
 // ---- Control Pilot waveform (IEC 61851) ----
 (function(){
@@ -437,7 +484,7 @@ footer .mono{font-family:var(--mono);font-size:.78rem}
   [[50,170,'A','geen auto'],[170,380,'B','auto verbonden'],[380,588,'C','laden']].forEach(([a,b,s,t])=>{
     el('line',{x1:b,x2:b,y1:14,y2:236,stroke:'var(--code-dim)','stroke-opacity':b<588?.35:0});
     el('text',{x:(a+b)/2,y:246,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':11,fill:'var(--code-ink)'},'STATE '+s);
-    const lbl=el('text',{x:(a+b)/2,y:14,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':10,fill:'var(--code-dim)'},t);
+    const lbl=el('text',{class:'t-sm',x:(a+b)/2,y:14,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':10,fill:'var(--code-dim)'},t);
     lbl.dataset.cp=s;
   });
   const cursor=el('line',{x1:50,x2:50,y1:18,y2:232,stroke:'var(--accent)','stroke-width':1.2,'stroke-opacity':.8});
@@ -490,7 +537,7 @@ const EN={
   q4:"Do you work for private customers?",q4a:"Yes, especially for recurring faults a reset won't fix. Our focus is business charging infrastructure.",
   c_title:"Report a fault or discuss a project",c_lede:"We reply within one working day.",c_phone:"Phone / WhatsApp",c_area:"Service area",c_area_v:"On site in North Brabant and the province of Utrecht · remotely across the Netherlands",c_mail1:"General",c_mail2:"Faults & support",c_mail3:"Direct contact — Ola Younis",copy:"copy",
   fm_name:"Name",fm_company:"Company (optional)",fm_type:"Subject",fm_model:"Brand, model and charge point ID",fm_msg:"Description",fm_send:"Send request",
-  fo1:"Report a fault",fo2:"OCPP / backend integration",fo3:"Load balancing / EMS",fo4:"Partnering as an installer",fo5:"Other"
+  fo1:"Report a fault",fo2:"OCPP / backend integration",fo3:"Load balancing / EMS",fo4:"Partnering as an installer",fo5:"Other",cb_call:"Call"
 };
 const NL={}; document.querySelectorAll('[data-i18n]').forEach(e=>{NL[e.dataset.i18n]=e.innerHTML;});
 const CPL={nl:{A:'geen auto',B:'auto verbonden',C:'laden'},en:{A:'no vehicle',B:'vehicle connected',C:'charging'}};
@@ -530,6 +577,11 @@ document.getElementById('form').addEventListener('submit',ev=>{
   document.getElementById('f-body').textContent=body;
   document.getElementById('f-copy').onclick=()=>{navigator.clipboard?.writeText(body).catch(()=>selectText(document.getElementById('f-body')));};
 });
+
+// ---- mobile menu ----
+(function(){const b=document.getElementById('menu-btn'),m=document.getElementById('mnav');if(!b)return;
+b.addEventListener('click',()=>{const o=m.hidden;m.hidden=!o;b.setAttribute('aria-expanded',o);});
+m.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{m.hidden=true;b.setAttribute('aria-expanded','false');}));})();
 document.getElementById('yr').textContent=new Date().getFullYear();
 </script>
 </body>
