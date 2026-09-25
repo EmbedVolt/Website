@@ -1,0 +1,521 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>EmbedVolt Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#EEF1EC; --surface:#F8FAF6; --raise:#FFFFFF; --ink:#12232A; --muted:#4F6166; --line:#CFD8D2;
+  --accent:#0B6F6A; --accent-ink:#FFFFFF; --signal:#C98A0E; --signal-soft:#F6E7C4;
+  --code-bg:#12232A; --code-ink:#DCE7E3; --code-dim:#7C9A96; --ok:#2E8B57; --bad:#C2413A;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --ground:#0C1618; --surface:#122022; --raise:#172a2c; --ink:#E3ECE8; --muted:#9DB0AC; --line:#26393A;
+  --accent:#3FC0B5; --accent-ink:#06201E; --signal:#F0B53A; --signal-soft:#3A2F14;
+  --code-bg:#081012; --code-ink:#D6E3DF; --code-dim:#6F8C88;
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0C1618; --surface:#122022; --raise:#172a2c; --ink:#E3ECE8; --muted:#9DB0AC; --line:#26393A;
+  --accent:#3FC0B5; --accent-ink:#06201E; --signal:#F0B53A; --signal-soft:#3A2F14;
+  --code-bg:#081012; --code-ink:#D6E3DF; --code-dim:#6F8C88;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+.hero>*,.log-grid>*,.contact>*,.services>*,.prices>*{min-width:0}
+.price.feature .amount{font-size:1.9rem}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;padding-inline:clamp(16px,4vw,48px)}
+.wrap{max-width:1140px;margin-inline:auto}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--display);line-height:1.08;text-wrap:balance;margin:0}
+h1{font-weight:800;font-stretch:125%;font-size:clamp(2.1rem,5.4vw,3.9rem);letter-spacing:-.01em}
+h2{font-weight:800;font-stretch:125%;font-size:clamp(1.6rem,3.4vw,2.4rem)}
+h3{font-weight:600;font-stretch:112%;font-size:1.15rem}
+p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.lede{font-size:1.12rem;color:var(--muted);max-width:60ch}
+section{padding-block:clamp(56px,8vw,96px);border-top:1px solid var(--line)}
+.sec-head{display:grid;gap:12px;margin-bottom:36px;max-width:720px}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--ground) 88%,transparent);backdrop-filter:blur(8px);margin-inline:calc(-1*clamp(16px,4vw,48px));padding:12px clamp(16px,4vw,48px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:var(--display);font-weight:800;font-stretch:125%;font-size:1.15rem;margin-right:auto}
+.brand small{display:block;font-family:var(--mono);font-weight:400;font-size:.62rem;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;font-stretch:100%}
+.links{display:flex;gap:18px;flex-wrap:wrap}
+.links a{color:var(--ink);text-decoration:none;font-weight:500;font-size:.95rem}
+.links a:hover{color:var(--accent)}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.lang button{font:500 .8rem var(--mono);background:none;border:0;color:var(--muted);padding:5px 11px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--ground)}
+@media (max-width:720px){.links{display:none}}
+
+.btn{display:inline-flex;align-items:center;gap:8px;font:600 1rem var(--body);padding:13px 22px;border-radius:999px;text-decoration:none;border:1.5px solid var(--accent);cursor:pointer}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--ink)}
+
+/* hero */
+.hero{padding-block:clamp(40px,7vw,80px) clamp(48px,7vw,88px);border-top:0;display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(28px,5vw,64px);align-items:center}
+.hero .copy{display:grid;gap:22px}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.facts{display:flex;gap:10px;flex-wrap:wrap;padding:0;margin:0;list-style:none}
+.facts li{font-family:var(--mono);font-size:.78rem;color:var(--muted);border:1px solid var(--line);padding:4px 10px;border-radius:999px}
+.scope{background:var(--code-bg);border-radius:14px;padding:18px 18px 14px;color:var(--code-ink);box-shadow:0 30px 60px -30px rgba(10,30,30,.45)}
+.scope-top{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.72rem;color:var(--code-dim);margin-bottom:8px;gap:12px;flex-wrap:wrap}
+.scope-top b{color:var(--signal);font-weight:500}
+.scope svg{display:block;width:100%;height:auto}
+.scope .cap{font-family:var(--mono);font-size:.72rem;color:var(--code-dim);margin-top:8px}
+@media (max-width:880px){.hero{grid-template-columns:1fr}}
+
+/* log */
+.log-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:24px;align-items:start}
+.log{background:var(--code-bg);color:var(--code-ink);border-radius:var(--r);padding:18px;font:400 .82rem/1.7 var(--mono);overflow-x:auto}
+.log .row{white-space:pre;display:block}
+.log .dim{color:var(--code-dim)}
+.log .hi{color:var(--signal)}
+.log .err{background:rgba(194,65,58,.22);border-left:3px solid var(--bad);margin-left:-18px;padding-left:15px;display:block}
+.tag{display:inline-block;font:500 .7rem var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:4px;background:var(--signal-soft);color:var(--ink);margin-bottom:10px}
+.verdict{background:var(--raise);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:grid;gap:14px}
+.verdict dl{margin:0;display:grid;gap:10px}
+.verdict dt{font:500 .72rem var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.verdict dd{margin:0}
+@media (max-width:880px){.log-grid{grid-template-columns:1fr}}
+
+/* protocols */
+.protos{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.protos div{background:var(--surface);padding:16px 18px;display:grid;gap:2px}
+.protos b{font-family:var(--mono);font-weight:500;font-size:.95rem}
+.protos span{color:var(--muted);font-size:.86rem}
+
+/* services */
+.services{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.svc{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:grid;gap:10px;align-content:start}
+.svc .ico{width:38px;height:38px;border-radius:8px;background:var(--signal-soft);display:grid;place-items:center;color:var(--ink)}
+.svc p{color:var(--muted);font-size:.95rem}
+.svc ul{margin:4px 0 0;padding-left:18px;color:var(--muted);font-size:.9rem}
+@media (max-width:900px){.services{grid-template-columns:1fr 1fr}}
+@media (max-width:600px){.services{grid-template-columns:1fr}}
+
+/* audience */
+.aud{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:2px solid var(--ink)}
+.aud div{padding:22px 22px 6px 0;display:grid;gap:8px;align-content:start}
+.aud div+div{padding-left:22px;border-left:1px solid var(--line)}
+.aud p{color:var(--muted);font-size:.95rem}
+@media (max-width:760px){.aud{grid-template-columns:1fr}.aud div+div{padding-left:0;border-left:0;border-top:1px solid var(--line)}}
+
+/* steps */
+.steps{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;counter-reset:s}
+.steps li{counter-increment:s;display:grid;gap:8px;align-content:start;position:relative;padding-top:44px}
+.steps li::before{content:counter(s);position:absolute;top:0;left:0;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--accent);color:var(--accent);font:500 .9rem var(--mono);display:grid;place-items:center}
+.steps li::after{content:"";position:absolute;top:16px;left:40px;right:-12px;height:1.5px;background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 10px)}
+.steps li:last-child::after{display:none}
+.steps p{color:var(--muted);font-size:.95rem}
+@media (max-width:860px){.steps{grid-template-columns:1fr 1fr}.steps li::after{display:none}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* pricing */
+.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.price{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:26px;display:grid;gap:12px;align-content:start}
+.price.feature{background:var(--raise);border:1.5px solid var(--accent)}
+.amount{font-family:var(--display);font-weight:800;font-stretch:125%;font-size:2.2rem;font-variant-numeric:tabular-nums}
+.amount small{font-family:var(--body);font-weight:400;font-size:.85rem;color:var(--muted);font-stretch:100%}
+.price ul{margin:0;padding-left:18px;color:var(--muted);font-size:.93rem;display:grid;gap:4px}
+.note{color:var(--muted);font-size:.85rem;margin-top:18px}
+@media (max-width:860px){.prices{grid-template-columns:1fr}}
+
+/* faq */
+.faq{display:grid;gap:0;max-width:820px}
+.faq details{border-bottom:1px solid var(--line);padding-block:16px}
+.faq summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--mono);color:var(--accent)}
+.faq details[open] summary::after{content:"−"}
+.faq details p{color:var(--muted);margin-top:10px;max-width:68ch}
+
+/* contact */
+.contact{display:grid;grid-template-columns:.9fr 1.1fr;gap:clamp(24px,5vw,56px)}
+.cinfo{display:grid;gap:18px;align-content:start}
+.cinfo dl{margin:0;display:grid;gap:14px}
+.cinfo dt{font:500 .72rem var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.cinfo dd{margin:2px 0 0;font-weight:500;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.copy-btn{font:500 .75rem var(--mono);background:none;border:1px solid var(--line);color:var(--muted);border-radius:6px;padding:3px 8px;cursor:pointer}
+form{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:24px;display:grid;gap:14px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:560px){.two{grid-template-columns:1fr}}
+label{display:grid;gap:6px;font-size:.88rem;font-weight:500}
+input,select,textarea{font:400 1rem var(--body);color:var(--ink);background:var(--raise);border:1px solid var(--line);border-radius:8px;padding:11px 12px;width:100%}
+textarea{min-height:120px;resize:vertical}
+.form-out{background:var(--signal-soft);border-radius:8px;padding:14px;font-size:.92rem;display:grid;gap:8px}
+.form-out pre{margin:0;white-space:pre-wrap;font:400 .8rem var(--mono)}
+@media (max-width:860px){.contact{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--line);padding-block:28px 40px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:.85rem}
+footer .mono{font-family:var(--mono);font-size:.78rem}
+</style>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="EmbedVolt Engineering">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect x="1" y="1" width="32" height="32" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M6 11h6v12h5V11h5v12h6" fill="none" stroke="var(--signal)" stroke-width="2.4" stroke-linejoin="round"/></svg>
+      <span>EmbedVolt<small>Engineering</small></span>
+    </a>
+    <nav class="links" aria-label="Hoofdmenu">
+      <a href="#diensten" data-i18n="nav1">Diensten</a>
+      <a href="#werkwijze" data-i18n="nav2">Werkwijze</a>
+      <a href="#tarieven" data-i18n="nav3">Tarieven</a>
+      <a href="#contact" data-i18n="nav4">Contact</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Taal / Language">
+      <button id="lang-nl" type="button" aria-pressed="true">NL</button>
+      <button id="lang-en" type="button" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+  <section class="hero">
+    <div class="copy">
+      <span class="eyebrow" data-i18n="h_eyebrow">Laadpaal-diagnose op firmwareniveau · Helmond</span>
+      <h1 data-i18n="h_title">Laadpaal in storing? Wij lezen wat de firmware zegt.</h1>
+      <p class="lede" data-i18n="h_lede">EmbedVolt Engineering zoekt uit <em>waarom</em> een laadpunt faalt — in de OCPP-logs, de backendkoppeling en de communicatie met de auto. Voor installateurs, CPO's en bedrijven die niet nóg een keer een monteur willen laten resetten.</p>
+      <div class="ctas">
+        <a class="btn primary" href="#contact" data-i18n="h_cta1">Storing melden</a>
+        <a class="btn ghost" href="#diensten" data-i18n="h_cta2">Bekijk diensten</a>
+      </div>
+      <ul class="facts">
+        <li data-i18n="f1">Merkonafhankelijk</li>
+        <li>OCPP 1.6J · 2.0.1</li>
+        <li>AC &amp; DC</li>
+        <li data-i18n="f2">Diagnose op afstand</li>
+      </ul>
+    </div>
+    <figure class="scope" style="margin:0" aria-label="Control Pilot-signaal volgens IEC 61851">
+      <div class="scope-top"><span>CP · IEC 61851-1</span><span><b>1 kHz PWM</b> · duty 53% → 32 A</span></div>
+      <svg id="cp" viewBox="0 0 600 250" role="img" aria-label="Control Pilot-spanning: state A 12 volt, state B 9 volt PWM, state C 6 volt PWM"></svg>
+      <figcaption class="cap" data-i18n="scope_cap">Het Control Pilot-signaal: hier begint elke laadsessie — en veel storingen.</figcaption>
+    </figure>
+  </section>
+
+  <section id="log">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="l_eyebrow">Zo werken we</span>
+      <h2 data-i18n="l_title">Eerst de logs, dan pas de ladder.</h2>
+      <p class="lede" data-i18n="l_lede">Veel storingen zijn te herleiden vóórdat iemand de weg op gaat. We analyseren de berichten tussen laadpaal en backend en vertellen u wat er echt aan de hand is.</p>
+    </div>
+    <div class="log-grid">
+      <div>
+        <span class="tag" data-i18n="l_tag">Voorbeeld-analyse</span>
+        <div class="log" role="region" aria-label="Voorbeeld OCPP-log" tabindex="0">
+<span class="row dim">14:02:11  ← StartTransaction  connectorId=1  idTag=04A2…</span>
+<span class="row dim">14:02:11  → { "transactionId": 88213, "idTagInfo": {"status":"Accepted"} }</span>
+<span class="row">14:02:12  ← StatusNotification  <span class="hi">"Charging"</span></span>
+<span class="row dim">14:07:40  ← MeterValues  Current.Import L1=31.6 A  L2=31.4 A  L3=0.2 A</span>
+<span class="row err">14:07:41  ← StatusNotification  <span class="hi">"Faulted"</span>  errorCode="GroundFailure"</span>
+<span class="row err">          vendorErrorCode="RCM_DC_6mA"</span>
+<span class="row dim">14:07:41  ← StopTransaction  reason="EVDisconnected"  meterStop=2 841 Wh</span>
+<span class="row dim">14:09:03  → Reset  type="Soft"                 <span class="hi">// 3e reset vandaag</span></span>
+        </div>
+      </div>
+      <div class="verdict">
+        <h3 data-i18n="v_title">Wat we hieruit halen</h3>
+        <dl>
+          <div><dt data-i18n="v_d1">Symptoom</dt><dd data-i18n="v_s">Laadpaal valt na ± 5 min uit; resetten helpt telkens even.</dd></div>
+          <div><dt data-i18n="v_d2">Oorzaak</dt><dd data-i18n="v_c">DC-lekstroombewaking (6 mA) grijpt in bij laden op 2 fasen — wijst op de auto of kabel, niet op de laadpaal.</dd></div>
+          <div><dt data-i18n="v_d3">Advies</dt><dd data-i18n="v_a">Geen resets meer op afstand; test met ander voertuig en laat de laadkabel meten.</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section id="protocollen">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="p_eyebrow">De taal van laadpalen</span>
+      <h2 data-i18n="p_title">We spreken elk protocol tussen stopcontact en cloud.</h2>
+    </div>
+    <div class="protos">
+      <div><b>OCPP 1.6J</b><span data-i18n="p1">Backend-koppeling, de meeste palen in NL</span></div>
+      <div><b>OCPP 2.0.1</b><span data-i18n="p2">Device model, security profiles 1–3</span></div>
+      <div><b>IEC 61851</b><span data-i18n="p3">Control Pilot &amp; Proximity, laadstates</span></div>
+      <div><b>ISO 15118</b><span data-i18n="p4">Plug &amp; Charge, communicatie met de auto</span></div>
+      <div><b>Modbus RTU/TCP</b><span data-i18n="p5">kWh-meters, EMS, load balancing</span></div>
+      <div><b>TLS / PKI</b><span data-i18n="p6">Certificaten, beveiligde verbindingen</span></div>
+    </div>
+  </section>
+
+  <section id="diensten">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="s_eyebrow">Diensten</span>
+      <h2 data-i18n="s_title">Van één haperende paal tot een compleet laadplein.</h2>
+    </div>
+    <div class="services">
+      <article class="svc">
+        <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="9" r="6"/><path d="M13.5 13.5 18 18"/></svg></span>
+        <h3 data-i18n="s1_t">Storingsdiagnose</h3>
+        <p data-i18n="s1_p">Structurele of terugkerende storingen analyseren aan de hand van logs, foutcodes en meetdata.</p>
+        <ul><li data-i18n="s1_l1">Op afstand via uw CPMS of logbestanden</li><li data-i18n="s1_l2">Op locatie met meetapparatuur</li><li data-i18n="s1_l3">Helder rapport met oorzaak en oplossing</li></ul>
+      </article>
+      <article class="svc">
+        <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="6" height="14" rx="1.5"/><rect x="12" y="3" width="6" height="14" rx="1.5"/><path d="M8 10h4"/></svg></span>
+        <h3 data-i18n="s2_t">OCPP- &amp; backendintegratie</h3>
+        <p data-i18n="s2_p">Laadpalen koppelen aan (een nieuw) beheerplatform en problemen met verbinding of transacties oplossen.</p>
+        <ul><li data-i18n="s2_l1">Migratie naar ander CPMS</li><li data-i18n="s2_l2">Autorisatie, RFID en transacties</li><li data-i18n="s2_l3">Security profiles &amp; certificaten</li></ul>
+      </article>
+      <article class="svc">
+        <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 15V9M8 15V5M13 15v-4M18 15V7"/></svg></span>
+        <h3 data-i18n="s3_t">Load balancing &amp; energiemanagement</h3>
+        <p data-i18n="s3_p">Laadpalen, kWh-meters en EMS via Modbus correct laten samenwerken — zonder dat de hoofdzekering eruit gaat.</p>
+        <ul><li data-i18n="s3_l1">Dynamische load balancing</li><li data-i18n="s3_l2">Koppeling met zon-PV en batterij</li><li data-i18n="s3_l3">Smart charging profielen</li></ul>
+      </article>
+      <article class="svc">
+        <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5 8 14.5 16 5.5"/></svg></span>
+        <h3 data-i18n="s4_t">Configuratie &amp; inbedrijfstelling</h3>
+        <p data-i18n="s4_p">Nieuwe laadpunten correct geconfigureerd en getest opleveren, inclusief configuratierapport.</p>
+        <ul><li data-i18n="s4_l1">Parameters en netwerk instellen</li><li data-i18n="s4_l2">Functionele test met voertuig</li><li data-i18n="s4_l3">Opleverrapport per laadpunt</li></ul>
+      </article>
+      <article class="svc">
+        <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 3v9M6 8l4 4 4-4M4 16h12"/></svg></span>
+        <h3 data-i18n="s5_t">Firmware-updates</h3>
+        <p data-i18n="s5_p">Veilig updaten van één paal of een hele vloot, met controle vooraf en terugvalplan.</p>
+        <ul><li data-i18n="s5_l1">Release notes en risico's beoordelen</li><li data-i18n="s5_l2">Gefaseerde uitrol via OCPP</li><li data-i18n="s5_l3">Controle na update</li></ul>
+      </article>
+      <article class="svc">
+        <span class="ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="3"/><circle cx="14" cy="9" r="2.4"/><path d="M2 17c.6-3 2.6-4.5 5-4.5s4.4 1.5 5 4.5M12 13.5c2.4 0 4.2 1.2 5 3.5"/></svg></span>
+        <h3 data-i18n="s6_t">Tweedelijns support</h3>
+        <p data-i18n="s6_p">Technische achtervang voor installateurs en CPO's: wij nemen de lastige tickets over.</p>
+        <ul><li data-i18n="s6_l1">Escalaties die uw helpdesk niet oplost</li><li data-i18n="s6_l2">Contact met fabrikant namens u</li><li data-i18n="s6_l3">Op afroep of als abonnement</li></ul>
+      </article>
+    </div>
+  </section>
+
+  <section id="voor-wie">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="a_eyebrow">Voor wie</span>
+      <h2 data-i18n="a_title">Technische partner achter de laadinfrastructuur.</h2>
+    </div>
+    <div class="aud">
+      <div><h3 data-i18n="a1_t">Installateurs</h3><p data-i18n="a1_p">U installeert, wij lossen de software- en communicatieproblemen op die buiten uw vak vallen.</p></div>
+      <div><h3 data-i18n="a2_t">CPO's &amp; beheerders</h3><p data-i18n="a2_p">Minder uitval, minder onnodige monteursritten en een duidelijke oorzaak per storing.</p></div>
+      <div><h3 data-i18n="a3_t">Bedrijven &amp; VvE's</h3><p data-i18n="a3_p">Eigen laadplein dat niet doet wat het moet? Wij zoeken uit waar het misgaat — onafhankelijk van merk of leverancier.</p></div>
+    </div>
+  </section>
+
+  <section id="werkwijze">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="w_eyebrow">Werkwijze</span>
+      <h2 data-i18n="w_title">Van melding tot oplossing in vier stappen.</h2>
+    </div>
+    <ol class="steps">
+      <li><h3 data-i18n="w1_t">Melden</h3><p data-i18n="w1_p">Stuur merk, type, laadpunt-ID en een omschrijving of foto van de foutmelding.</p></li>
+      <li><h3 data-i18n="w2_t">Analyse op afstand</h3><p data-i18n="w2_p">We bekijken logs en backenddata. Vaak is de oorzaak hier al duidelijk.</p></li>
+      <li><h3 data-i18n="w3_t">Rapport &amp; advies</h3><p data-i18n="w3_p">U krijgt een helder verslag: oorzaak, bewijs uit de logs en de aanbevolen oplossing.</p></li>
+      <li><h3 data-i18n="w4_t">Op locatie</h3><p data-i18n="w4_p">Alleen als het nodig is, met een gericht plan — in samenwerking met uw installateur.</p></li>
+    </ol>
+  </section>
+
+  <section id="tarieven">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="t_eyebrow">Tarieven</span>
+      <h2 data-i18n="t_title">Duidelijke prijzen, geen verrassingen.</h2>
+    </div>
+    <div class="prices">
+      <div class="price">
+        <h3 data-i18n="t1_t">Diagnose op afstand</h3>
+        <div class="amount">€ 95 <small data-i18n="t1_u">per laadpunt</small></div>
+        <ul><li data-i18n="t1_l1">Analyse van logs en backenddata</li><li data-i18n="t1_l2">Schriftelijk rapport binnen 2 werkdagen</li><li data-i18n="t1_l3">Geen voorrijkosten</li></ul>
+      </div>
+      <div class="price feature">
+        <h3 data-i18n="t2_t">Diagnose op locatie</h3>
+        <div class="amount"><span data-i18n="from">vanaf</span> € 175 <small data-i18n="t2_u">per bezoek</small></div>
+        <ul><li data-i18n="t2_l1">Incl. voorrijkosten regio Eindhoven–Helmond</li><li data-i18n="t2_l2">Eerste uur meten en analyseren</li><li data-i18n="t2_l3">Rapport met oorzaak en advies</li></ul>
+      </div>
+      <div class="price">
+        <h3 data-i18n="t3_t">Projecten &amp; integratie</h3>
+        <div class="amount">€ 85 <small data-i18n="t3_u">per uur</small></div>
+        <ul><li data-i18n="t3_l1">OCPP-migraties, load balancing, vloot-updates</li><li data-i18n="t3_l2">Vaste prijs op offerte mogelijk</li><li data-i18n="t3_l3">Supportabonnement voor installateurs</li></ul>
+      </div>
+    </div>
+    <p class="note" data-i18n="t_note">Alle bedragen excl. btw. Onderdelen en werk aan de elektrische installatie worden vooraf met u afgestemd.</p>
+  </section>
+
+  <section id="faq">
+    <div class="sec-head">
+      <span class="eyebrow">FAQ</span>
+      <h2 data-i18n="q_title">Veelgestelde vragen</h2>
+    </div>
+    <div class="faq">
+      <details><summary data-i18n="q1">Welke merken laadpalen ondersteunen jullie?</summary><p data-i18n="q1a">We werken merkonafhankelijk. Elke laadpaal die via OCPP 1.6 of 2.0.1 met een backend communiceert, kunnen we analyseren — AC én DC.</p></details>
+      <details><summary data-i18n="q2">Wat heeft u van mij nodig voor een diagnose op afstand?</summary><p data-i18n="q2a">Merk en type, het laadpunt-ID en toegang tot de logs: via uw beheerplatform, een export of een logbestand van de laadpaal zelf.</p></details>
+      <details><summary data-i18n="q3">Vervangen jullie ook onderdelen?</summary><p data-i18n="q3a">Onze kracht is de diagnose. Werk aan de elektrische installatie en het vervangen van hardware stemmen we af met uw installateur of een bevoegde partner.</p></details>
+      <details><summary data-i18n="q4">Werken jullie ook voor particulieren?</summary><p data-i18n="q4a">Ja, zeker bij terugkerende storingen die niet met een reset op te lossen zijn. Onze focus ligt op zakelijke laadinfrastructuur.</p></details>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact">
+      <div class="cinfo">
+        <span class="eyebrow">Contact</span>
+        <h2 data-i18n="c_title">Storing melden of project bespreken</h2>
+        <p class="lede" data-i18n="c_lede">We reageren binnen één werkdag.</p>
+        <dl>
+          <div><dt>E-mail</dt><dd><span id="c-email">info@embedvolt.nl</span><button class="copy-btn" type="button" data-copy="c-email" data-i18n="copy">kopieer</button></dd></div>
+          <div><dt data-i18n="c_phone">Telefoon / WhatsApp</dt><dd><span id="c-phone">+31 6 00 00 00 00</span><button class="copy-btn" type="button" data-copy="c-phone" data-i18n="copy">kopieer</button></dd></div>
+          <div><dt data-i18n="c_area">Werkgebied</dt><dd data-i18n="c_area_v">Regio Eindhoven–Helmond op locatie · heel Nederland op afstand</dd></div>
+        </dl>
+      </div>
+      <form id="form" novalidate>
+        <div class="two">
+          <label for="f-name"><span data-i18n="fm_name">Naam</span><input id="f-name" name="name" autocomplete="name" required></label>
+          <label for="f-company"><span data-i18n="fm_company">Bedrijf (optioneel)</span><input id="f-company" name="company" autocomplete="organization"></label>
+        </div>
+        <div class="two">
+          <label for="f-email"><span>E-mail</span><input id="f-email" name="email" type="email" autocomplete="email" required></label>
+          <label for="f-type"><span data-i18n="fm_type">Onderwerp</span>
+            <select id="f-type" name="type">
+              <option data-i18n="fo1">Storing melden</option>
+              <option data-i18n="fo2">OCPP / backendintegratie</option>
+              <option data-i18n="fo3">Load balancing / EMS</option>
+              <option data-i18n="fo4">Samenwerking als installateur</option>
+              <option data-i18n="fo5">Anders</option>
+            </select>
+          </label>
+        </div>
+        <label for="f-model"><span data-i18n="fm_model">Merk, type en laadpunt-ID</span><input id="f-model" name="model"></label>
+        <label for="f-msg"><span data-i18n="fm_msg">Omschrijving</span><textarea id="f-msg" name="msg" required></textarea></label>
+        <button class="btn primary" type="submit" data-i18n="fm_send">Verstuur aanvraag</button>
+        <div class="form-out" id="form-out" hidden></div>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div><strong>EmbedVolt Engineering</strong> · Helmond</div>
+    <div class="mono">KvK 00000000 · btw NL000000000B00</div>
+    <div>© <span id="yr">2026</span></div>
+  </footer>
+</main>
+
+<script>
+// ---- Control Pilot waveform (IEC 61851) ----
+(function(){
+  const svg=document.getElementById('cp'); const NS='http://www.w3.org/2000/svg';
+  const y=v=>125-v*8.5; // +12 → 23, -12 → 227
+  const el=(t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e;};
+  [12,9,6,0,-12].forEach(v=>{
+    el('line',{x1:46,x2:592,y1:y(v),y2:y(v),stroke:'var(--code-dim)','stroke-opacity':v===0?.55:.22,'stroke-dasharray':v===0?'':'3 5'});
+    el('text',{x:40,y:y(v)+4,'text-anchor':'end','font-family':'IBM Plex Mono, monospace','font-size':11,fill:'var(--code-dim)'},(v>0?'+':'')+v+'V');
+  });
+  let d=`M50 ${y(12)} H170`, x=170;
+  const pwm=(end,hi)=>{while(x<end){const hiEnd=Math.min(x+21,end);d+=` V${y(hi)} H${hiEnd}`;x=hiEnd;if(x>=end)break;const loEnd=Math.min(x+19,end);d+=` V${y(-12)} H${loEnd}`;x=loEnd;}};
+  pwm(380,9); pwm(588,6);
+  el('path',{d,fill:'none',stroke:'var(--signal)','stroke-width':2.2,'stroke-linejoin':'miter'});
+  [[50,170,'A','geen auto'],[170,380,'B','auto verbonden'],[380,588,'C','laden']].forEach(([a,b,s,t])=>{
+    el('line',{x1:b,x2:b,y1:14,y2:236,stroke:'var(--code-dim)','stroke-opacity':b<588?.35:0});
+    el('text',{x:(a+b)/2,y:246,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':11,fill:'var(--code-ink)'},'STATE '+s);
+    const lbl=el('text',{x:(a+b)/2,y:14,'text-anchor':'middle','font-family':'IBM Plex Mono, monospace','font-size':10,fill:'var(--code-dim)'},t);
+    lbl.dataset.cp=s;
+  });
+  const cursor=el('line',{x1:50,x2:50,y1:18,y2:232,stroke:'var(--accent)','stroke-width':1.2,'stroke-opacity':.8});
+  if(!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    let t0=null;const loop=ts=>{if(!t0)t0=ts;const p=((ts-t0)/6000)%1;const cx=50+p*538;cursor.setAttribute('x1',cx);cursor.setAttribute('x2',cx);requestAnimationFrame(loop);};requestAnimationFrame(loop);
+  } else cursor.remove();
+})();
+
+// ---- i18n ----
+const EN={
+  nav1:"Services",nav2:"How we work",nav3:"Pricing",nav4:"Contact",
+  h_eyebrow:"Firmware-level EV charger diagnostics · Helmond",
+  h_title:"Charger faulted? We read what the firmware is telling you.",
+  h_lede:"EmbedVolt Engineering finds out <em>why</em> a charge point fails — in the OCPP logs, the backend connection and the communication with the car. For installers, CPOs and businesses who don't want to send another technician just to reset it.",
+  h_cta1:"Report a fault",h_cta2:"See services",f1:"Brand-independent",f2:"Remote diagnostics",
+  scope_cap:"The Control Pilot signal: where every charging session starts — and many faults do too.",
+  l_eyebrow:"How we work",l_title:"Logs first, ladder later.",
+  l_lede:"Many faults can be traced before anyone gets in a van. We analyse the messages between charger and backend and tell you what is really going on.",
+  l_tag:"Example analysis",v_title:"What we take from it",v_d1:"Symptom",v_d2:"Cause",v_d3:"Advice",
+  v_s:"Charger drops out after ~5 min; a reset helps briefly every time.",
+  v_c:"DC residual-current monitoring (6 mA) trips while charging on 2 phases — points to the car or cable, not the charger.",
+  v_a:"Stop remote resets; test with another vehicle and have the charging cable measured.",
+  p_eyebrow:"The language of chargers",p_title:"We speak every protocol between socket and cloud.",
+  p1:"Backend link, most chargers in the NL",p2:"Device model, security profiles 1–3",p3:"Control Pilot & Proximity, charging states",p4:"Plug & Charge, communication with the car",p5:"kWh meters, EMS, load balancing",p6:"Certificates, secure connections",
+  s_eyebrow:"Services",s_title:"From one flaky charger to a full charging site.",
+  s1_t:"Fault diagnostics",s1_p:"Analysing recurring or structural faults using logs, error codes and meter data.",s1_l1:"Remotely via your CPMS or log files",s1_l2:"On site with measurement equipment",s1_l3:"Clear report with cause and fix",
+  s2_t:"OCPP & backend integration",s2_p:"Connecting chargers to a (new) management platform and fixing connection or transaction issues.",s2_l1:"Migration to another CPMS",s2_l2:"Authorisation, RFID and transactions",s2_l3:"Security profiles & certificates",
+  s3_t:"Load balancing & energy management",s3_p:"Getting chargers, kWh meters and EMS to work together over Modbus — without tripping the main fuse.",s3_l1:"Dynamic load balancing",s3_l2:"Solar PV and battery integration",s3_l3:"Smart charging profiles",
+  s4_t:"Configuration & commissioning",s4_p:"Delivering new charge points correctly configured and tested, including a configuration report.",s4_l1:"Parameters and network setup",s4_l2:"Functional test with a vehicle",s4_l3:"Handover report per charge point",
+  s5_t:"Firmware updates",s5_p:"Safely updating one charger or a whole fleet, with checks up front and a fallback plan.",s5_l1:"Reviewing release notes and risks",s5_l2:"Staged rollout via OCPP",s5_l3:"Verification after update",
+  s6_t:"Second-line support",s6_p:"Technical backup for installers and CPOs: we take over the hard tickets.",s6_l1:"Escalations your helpdesk can't solve",s6_l2:"Liaising with the manufacturer for you",s6_l3:"On call or as a subscription",
+  a_eyebrow:"Who it's for",a_title:"The technical partner behind charging infrastructure.",
+  a1_t:"Installers",a1_p:"You install; we solve the software and communication problems outside your trade.",
+  a2_t:"CPOs & operators",a2_p:"Less downtime, fewer unnecessary truck rolls and a clear cause for every fault.",
+  a3_t:"Businesses & HOAs",a3_p:"Own charging site not doing what it should? We find out where it goes wrong — independent of brand or supplier.",
+  w_eyebrow:"How we work",w_title:"From report to fix in four steps.",
+  w1_t:"Report",w1_p:"Send brand, model, charge point ID and a description or photo of the error.",
+  w2_t:"Remote analysis",w2_p:"We review logs and backend data. Often the cause is clear at this point.",
+  w3_t:"Report & advice",w3_p:"You get a clear write-up: the cause, evidence from the logs and the recommended fix.",
+  w4_t:"On site",w4_p:"Only when needed, with a targeted plan — together with your installer.",
+  t_eyebrow:"Pricing",t_title:"Clear prices, no surprises.",
+  t1_t:"Remote diagnostics",t1_u:"per charge point",t1_l1:"Analysis of logs and backend data",t1_l2:"Written report within 2 working days",t1_l3:"No call-out fee",
+  t2_t:"On-site diagnostics",from:"from",t2_u:"per visit",t2_l1:"Incl. call-out in the Eindhoven–Helmond area",t2_l2:"First hour of measuring and analysis",t2_l3:"Report with cause and advice",
+  t3_t:"Projects & integration",t3_u:"per hour",t3_l1:"OCPP migrations, load balancing, fleet updates",t3_l2:"Fixed price on quotation possible",t3_l3:"Support subscription for installers",
+  t_note:"All prices excl. VAT. Parts and work on the electrical installation are agreed with you in advance.",
+  q_title:"Frequently asked questions",
+  q1:"Which charger brands do you support?",q1a:"We are brand-independent. Any charger that talks to a backend over OCPP 1.6 or 2.0.1 can be analysed — AC and DC.",
+  q2:"What do you need from me for a remote diagnosis?",q2a:"Brand and model, the charge point ID and access to the logs: via your management platform, an export or a log file from the charger itself.",
+  q3:"Do you replace parts as well?",q3a:"Our strength is diagnosis. Work on the electrical installation and hardware replacement is arranged with your installer or a qualified partner.",
+  q4:"Do you work for private customers?",q4a:"Yes, especially for recurring faults a reset won't fix. Our focus is business charging infrastructure.",
+  c_title:"Report a fault or discuss a project",c_lede:"We reply within one working day.",c_phone:"Phone / WhatsApp",c_area:"Service area",c_area_v:"Eindhoven–Helmond on site · all of the Netherlands remotely",copy:"copy",
+  fm_name:"Name",fm_company:"Company (optional)",fm_type:"Subject",fm_model:"Brand, model and charge point ID",fm_msg:"Description",fm_send:"Send request",
+  fo1:"Report a fault",fo2:"OCPP / backend integration",fo3:"Load balancing / EMS",fo4:"Partnering as an installer",fo5:"Other"
+};
+const NL={}; document.querySelectorAll('[data-i18n]').forEach(e=>{NL[e.dataset.i18n]=e.innerHTML;});
+const CPL={nl:{A:'geen auto',B:'auto verbonden',C:'laden'},en:{A:'no vehicle',B:'vehicle connected',C:'charging'}};
+let lang='nl';
+function setLang(l){
+  lang=l; const dict=l==='en'?EN:NL;
+  document.querySelectorAll('[data-i18n]').forEach(e=>{const v=dict[e.dataset.i18n];if(v!=null)e.innerHTML=v;});
+  document.querySelectorAll('[data-cp]').forEach(e=>{e.textContent=CPL[l][e.dataset.cp];});
+  document.documentElement.lang=l;
+  document.getElementById('lang-nl').setAttribute('aria-pressed',l==='nl');
+  document.getElementById('lang-en').setAttribute('aria-pressed',l==='en');
+  try{localStorage.setItem('ev-lang',l)}catch(e){}
+}
+document.getElementById('lang-nl').onclick=()=>setLang('nl');
+document.getElementById('lang-en').onclick=()=>setLang('en');
+try{const s=localStorage.getItem('ev-lang');if(s==='en')setLang('en');else document.documentElement.lang='nl';}catch(e){document.documentElement.lang='nl';}
+
+// ---- copy buttons ----
+document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>{
+  const t=document.getElementById(b.dataset.copy);const txt=t.textContent;const orig=b.textContent;
+  const done=()=>{b.textContent=lang==='en'?'copied':'gekopieerd';setTimeout(()=>b.textContent=orig,1500);};
+  if(navigator.clipboard){navigator.clipboard.writeText(txt).then(done).catch(()=>selectText(t));}else selectText(t);
+}));
+function selectText(n){const r=document.createRange();r.selectNodeContents(n);const s=getSelection();s.removeAllRanges();s.addRange(r);}
+
+// ---- form (no backend yet: compose message to send by email) ----
+document.getElementById('form').addEventListener('submit',ev=>{
+  ev.preventDefault(); const f=ev.target; const out=document.getElementById('form-out');
+  const req=['f-name','f-email','f-msg'].filter(id=>!document.getElementById(id).value.trim());
+  if(req.length){document.getElementById(req[0]).focus();out.hidden=false;
+    out.innerHTML=lang==='en'?'<strong>Please fill in name, e-mail and description.</strong>':'<strong>Vul naam, e-mail en omschrijving in.</strong>';return;}
+  const g=id=>document.getElementById(id).value.trim();
+  const body=`${g('f-type')}\n${g('f-name')}${g('f-company')?' · '+g('f-company'):''} <${g('f-email')}>\n${g('f-model')}\n\n${g('f-msg')}`;
+  const addr=document.getElementById('c-email').textContent;
+  out.hidden=false;
+  out.innerHTML=(lang==='en'?`<strong>Almost done — send this message to ${addr}:</strong>`:`<strong>Bijna klaar — stuur dit bericht naar ${addr}:</strong>`)+'<pre id="f-body"></pre><button class="copy-btn" type="button" id="f-copy">'+(lang==='en'?'copy message':'kopieer bericht')+'</button>';
+  document.getElementById('f-body').textContent=body;
+  document.getElementById('f-copy').onclick=()=>{navigator.clipboard?.writeText(body).catch(()=>selectText(document.getElementById('f-body')));};
+});
+document.getElementById('yr').textContent=new Date().getFullYear();
+</script>
+
+</body></html>
