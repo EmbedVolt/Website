@@ -1,5 +1,16 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>EmbedVolt Engineering</title>
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EmbedVolt Engineering — Laadpaal-diagnose &amp; OCPP-integratie</title>
+<meta name="description" content="Merkonafhankelijke laadpaal-diagnose op firmwareniveau, OCPP-integratie en load balancing. Op locatie in Noord-Brabant en Utrecht, op afstand in heel Nederland.">
+<link rel="canonical" href="https://embedvolt.nl/">
+<meta property="og:title" content="EmbedVolt Engineering">
+<meta property="og:description" content="Laadpaal in storing? Wij lezen wat de firmware zegt.">
+<meta property="og:url" content="https://embedvolt.nl/">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Crect x='1' y='1' width='32' height='32' rx='8' fill='%2312232A'/%3E%3Cpath d='M6 11h6v12h5V11h5v12h6' fill='none' stroke='%23F0B53A' stroke-width='2.6' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;125,800&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -162,7 +173,9 @@ textarea{min-height:120px;resize:vertical}
 footer{border-top:1px solid var(--line);padding-block:28px 40px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:.85rem}
 footer .mono{font-family:var(--mono);font-size:.78rem}
 </style>
-
+<style>body{margin:0;-webkit-font-smoothing:antialiased}img{max-width:100%}</style>
+</head>
+<body>
 <header class="nav">
   <div class="wrap">
     <a class="brand" href="#top" aria-label="EmbedVolt Engineering">
@@ -186,7 +199,7 @@ footer .mono{font-family:var(--mono);font-size:.78rem}
 
   <section class="hero">
     <div class="copy">
-      <span class="eyebrow" data-i18n="h_eyebrow">Laadpaal-diagnose op firmwareniveau · Helmond</span>
+      <span class="eyebrow" data-i18n="h_eyebrow">Laadpaal-diagnose op firmwareniveau · Noord-Brabant &amp; Utrecht</span>
       <h1 data-i18n="h_title">Laadpaal in storing? Wij lezen wat de firmware zegt.</h1>
       <p class="lede" data-i18n="h_lede">EmbedVolt Engineering zoekt uit <em>waarom</em> een laadpunt faalt — in de OCPP-logs, de backendkoppeling en de communicatie met de auto. Voor installateurs, CPO's en bedrijven die niet nóg een keer een monteur willen laten resetten.</p>
       <div class="ctas">
@@ -337,7 +350,7 @@ footer .mono{font-family:var(--mono);font-size:.78rem}
       <div class="price feature">
         <h3 data-i18n="t2_t">Diagnose op locatie</h3>
         <div class="amount"><span data-i18n="from">vanaf</span> € 175 <small data-i18n="t2_u">per bezoek</small></div>
-        <ul><li data-i18n="t2_l1">Incl. voorrijkosten regio Eindhoven–Helmond</li><li data-i18n="t2_l2">Eerste uur meten en analyseren</li><li data-i18n="t2_l3">Rapport met oorzaak en advies</li></ul>
+        <ul><li data-i18n="t2_l1">Incl. voorrijkosten in Noord-Brabant en Utrecht</li><li data-i18n="t2_l2">Eerste uur meten en analyseren</li><li data-i18n="t2_l3">Rapport met oorzaak en advies</li></ul>
       </div>
       <div class="price">
         <h3 data-i18n="t3_t">Projecten &amp; integratie</h3>
@@ -368,9 +381,11 @@ footer .mono{font-family:var(--mono);font-size:.78rem}
         <h2 data-i18n="c_title">Storing melden of project bespreken</h2>
         <p class="lede" data-i18n="c_lede">We reageren binnen één werkdag.</p>
         <dl>
-          <div><dt>E-mail</dt><dd><span id="c-email">info@embedvolt.nl</span><button class="copy-btn" type="button" data-copy="c-email" data-i18n="copy">kopieer</button></dd></div>
-          <div><dt data-i18n="c_phone">Telefoon / WhatsApp</dt><dd><span id="c-phone">+31 6 00 00 00 00</span><button class="copy-btn" type="button" data-copy="c-phone" data-i18n="copy">kopieer</button></dd></div>
-          <div><dt data-i18n="c_area">Werkgebied</dt><dd data-i18n="c_area_v">Regio Eindhoven–Helmond op locatie · heel Nederland op afstand</dd></div>
+          <div><dt data-i18n="c_mail1">Algemeen</dt><dd><span id="c-email">info@embedvolt.nl</span><button class="copy-btn" type="button" data-copy="c-email" data-i18n="copy">kopieer</button></dd></div>
+          <div><dt data-i18n="c_mail2">Storingen &amp; support</dt><dd><span id="c-support">support@embedvolt.nl</span><button class="copy-btn" type="button" data-copy="c-support" data-i18n="copy">kopieer</button></dd></div>
+          <div><dt data-i18n="c_mail3">Direct contact — Ola Younis</dt><dd><span id="c-ola">ola.younis@embedvolt.nl</span><button class="copy-btn" type="button" data-copy="c-ola" data-i18n="copy">kopieer</button></dd></div>
+          <div><dt data-i18n="c_phone">Telefoon / WhatsApp</dt><dd><span id="c-phone">+31 6 84 45 36 86</span><button class="copy-btn" type="button" data-copy="c-phone" data-i18n="copy">kopieer</button></dd></div>
+          <div><dt data-i18n="c_area">Werkgebied</dt><dd data-i18n="c_area_v">Op locatie in Noord-Brabant en Utrecht · op afstand in heel Nederland</dd></div>
         </dl>
       </div>
       <form id="form" novalidate>
@@ -400,7 +415,7 @@ footer .mono{font-family:var(--mono);font-size:.78rem}
 
   <footer>
     <div><strong>EmbedVolt Engineering</strong> · Helmond</div>
-    <div class="mono">KvK 00000000 · btw NL000000000B00</div>
+    <div class="mono">KvK 42148880 · btw NL005534838B08</div>
     <div>© <span id="yr">2026</span></div>
   </footer>
 </main>
@@ -434,7 +449,7 @@ footer .mono{font-family:var(--mono);font-size:.78rem}
 // ---- i18n ----
 const EN={
   nav1:"Services",nav2:"How we work",nav3:"Pricing",nav4:"Contact",
-  h_eyebrow:"Firmware-level EV charger diagnostics · Helmond",
+  h_eyebrow:"Firmware-level EV charger diagnostics · North Brabant & Utrecht",
   h_title:"Charger faulted? We read what the firmware is telling you.",
   h_lede:"EmbedVolt Engineering finds out <em>why</em> a charge point fails — in the OCPP logs, the backend connection and the communication with the car. For installers, CPOs and businesses who don't want to send another technician just to reset it.",
   h_cta1:"Report a fault",h_cta2:"See services",f1:"Brand-independent",f2:"Remote diagnostics",
@@ -465,7 +480,7 @@ const EN={
   w4_t:"On site",w4_p:"Only when needed, with a targeted plan — together with your installer.",
   t_eyebrow:"Pricing",t_title:"Clear prices, no surprises.",
   t1_t:"Remote diagnostics",t1_u:"per charge point",t1_l1:"Analysis of logs and backend data",t1_l2:"Written report within 2 working days",t1_l3:"No call-out fee",
-  t2_t:"On-site diagnostics",from:"from",t2_u:"per visit",t2_l1:"Incl. call-out in the Eindhoven–Helmond area",t2_l2:"First hour of measuring and analysis",t2_l3:"Report with cause and advice",
+  t2_t:"On-site diagnostics",from:"from",t2_u:"per visit",t2_l1:"Incl. call-out in North Brabant and Utrecht",t2_l2:"First hour of measuring and analysis",t2_l3:"Report with cause and advice",
   t3_t:"Projects & integration",t3_u:"per hour",t3_l1:"OCPP migrations, load balancing, fleet updates",t3_l2:"Fixed price on quotation possible",t3_l3:"Support subscription for installers",
   t_note:"All prices excl. VAT. Parts and work on the electrical installation are agreed with you in advance.",
   q_title:"Frequently asked questions",
@@ -473,7 +488,7 @@ const EN={
   q2:"What do you need from me for a remote diagnosis?",q2a:"Brand and model, the charge point ID and access to the logs: via your management platform, an export or a log file from the charger itself.",
   q3:"Do you replace parts as well?",q3a:"Our strength is diagnosis. Work on the electrical installation and hardware replacement is arranged with your installer or a qualified partner.",
   q4:"Do you work for private customers?",q4a:"Yes, especially for recurring faults a reset won't fix. Our focus is business charging infrastructure.",
-  c_title:"Report a fault or discuss a project",c_lede:"We reply within one working day.",c_phone:"Phone / WhatsApp",c_area:"Service area",c_area_v:"Eindhoven–Helmond on site · all of the Netherlands remotely",copy:"copy",
+  c_title:"Report a fault or discuss a project",c_lede:"We reply within one working day.",c_phone:"Phone / WhatsApp",c_area:"Service area",c_area_v:"On site in North Brabant and Utrecht · remotely across the Netherlands",c_mail1:"General",c_mail2:"Faults & support",c_mail3:"Direct contact — Ola Younis",copy:"copy",
   fm_name:"Name",fm_company:"Company (optional)",fm_type:"Subject",fm_model:"Brand, model and charge point ID",fm_msg:"Description",fm_send:"Send request",
   fo1:"Report a fault",fo2:"OCPP / backend integration",fo3:"Load balancing / EMS",fo4:"Partnering as an installer",fo5:"Other"
 };
@@ -509,7 +524,7 @@ document.getElementById('form').addEventListener('submit',ev=>{
     out.innerHTML=lang==='en'?'<strong>Please fill in name, e-mail and description.</strong>':'<strong>Vul naam, e-mail en omschrijving in.</strong>';return;}
   const g=id=>document.getElementById(id).value.trim();
   const body=`${g('f-type')}\n${g('f-name')}${g('f-company')?' · '+g('f-company'):''} <${g('f-email')}>\n${g('f-model')}\n\n${g('f-msg')}`;
-  const addr=document.getElementById('c-email').textContent;
+  const addr=document.getElementById(document.getElementById('f-type').selectedIndex===0?'c-support':'c-email').textContent;
   out.hidden=false;
   out.innerHTML=(lang==='en'?`<strong>Almost done — send this message to ${addr}:</strong>`:`<strong>Bijna klaar — stuur dit bericht naar ${addr}:</strong>`)+'<pre id="f-body"></pre><button class="copy-btn" type="button" id="f-copy">'+(lang==='en'?'copy message':'kopieer bericht')+'</button>';
   document.getElementById('f-body').textContent=body;
@@ -517,5 +532,5 @@ document.getElementById('form').addEventListener('submit',ev=>{
 });
 document.getElementById('yr').textContent=new Date().getFullYear();
 </script>
-
-</body></html>
+</body>
+</html>
